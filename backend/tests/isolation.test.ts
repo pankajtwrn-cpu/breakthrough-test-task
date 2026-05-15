@@ -64,7 +64,7 @@ describe('Tenant Isolation', () => {
       .get('/programs')
       .set('Authorization', `Bearer ${tenantBToken}`);
     
-    const found = listRes.body.find((p: any) => p.id === programAId);
+    const found = listRes.body.find((p: { id: string }) => p.id === programAId);
     expect(found).toBeUndefined();
   });
 

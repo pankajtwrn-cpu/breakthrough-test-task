@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync';
 import { db } from '../db/index.js';
-import { sessions, importJobs, programs } from '../db/schema.js';
+import { sessions, importJobs, programs, NewSession } from '../db/schema.js';
 import { eq, and } from 'drizzle-orm';
 import { AuthRequest } from '../middleware/auth.js';
 import { createAuditLog } from '../utils/audit.js';
@@ -62,7 +62,7 @@ export const importSessions = async (
     throw new Error('Invalid CSV format');
   }
 
-  const validRecords: any[] = [];
+  const validRecords: NewSession[] = [];
   const errors: ImportError[] = [];
 
   // 4. Validate rows
