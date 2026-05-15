@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../db/index.js';
@@ -8,7 +8,7 @@ import { eq } from 'drizzle-orm';
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-change-me';
 
-router.post('/signup', async (req: any, res: any) => {
+router.post('/signup', async (req: Request, res: Response) => {
   const { email, password, name } = req.body;
 
   if (!email || !password || !name) {
@@ -44,7 +44,7 @@ router.post('/signup', async (req: any, res: any) => {
   }
 });
 
-router.post('/login', async (req: any, res: any) => {
+router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {

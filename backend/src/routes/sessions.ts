@@ -78,7 +78,7 @@ router.patch('/program/:programId/reorder', async (req: AuthRequest, res: Respon
     if (!program) return res.status(404).json({ error: 'Program not found' });
 
     // Update positions in a transaction
-    await req.tenantDb!.transaction(async (tx: any) => {
+    await req.tenantDb!.transaction(async (tx) => {
       for (let i = 0; i < sessionIds.length; i++) {
         await tx.update(sessions)
           .set({ position: i, updatedAt: new Date() })
@@ -152,7 +152,8 @@ router.post('/program/:programId/import', async (req: AuthRequest, res: Response
   try {
     const result = await importSessions(req, programId, csvData, clientBatchId);
     res.json(result);
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as Error;
     res.status(400).json({ error: error.message });
   }
 });

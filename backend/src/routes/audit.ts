@@ -17,7 +17,7 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     let conditions = [eq(auditLogs.creatorId, tenantId)];
 
     if (action) {
-      conditions.push(eq(auditLogs.action, action as any));
+      conditions.push(eq(auditLogs.action, action as "CREATE" | "UPDATE" | "DELETE" | "IMPORT" | "REORDER"));
     }
 
     if (startDate) {

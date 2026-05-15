@@ -1,5 +1,5 @@
 import { pgTable, serial, text, timestamp, integer, uuid, varchar, jsonb, pgEnum } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
+import { relations, type InferSelectModel, type InferInsertModel } from 'drizzle-orm';
 
 export const actionEnum = pgEnum('action', ['CREATE', 'UPDATE', 'DELETE', 'IMPORT', 'REORDER']);
 export const entityEnum = pgEnum('entity', ['PROGRAM', 'SESSION']);
@@ -74,3 +74,18 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
   program: one(programs, { fields: [sessions.programId], references: [programs.id] }),
   creator: one(creators, { fields: [sessions.creatorId], references: [creators.id] }),
 }));
+
+export type Creator = InferSelectModel<typeof creators>;
+export type NewCreator = InferInsertModel<typeof creators>;
+
+export type Program = InferSelectModel<typeof programs>;
+export type NewProgram = InferInsertModel<typeof programs>;
+
+export type Session = InferSelectModel<typeof sessions>;
+export type NewSession = InferInsertModel<typeof sessions>;
+
+export type AuditLog = InferSelectModel<typeof auditLogs>;
+export type NewAuditLog = InferInsertModel<typeof auditLogs>;
+
+export type ImportJob = InferSelectModel<typeof importJobs>;
+export type NewImportJob = InferInsertModel<typeof importJobs>;

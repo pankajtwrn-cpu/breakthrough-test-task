@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
+import { AuthRequest } from './auth.js';
 
 export const logger = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
   const requestId = req.headers['x-request-id'] as string;
-  const tenantId = (req as any).user?.tenantId; // Will be populated by auth middleware later
+  const tenantId = (req as AuthRequest).user?.tenantId; // Will be populated by auth middleware later
 
   // Hook into res.on('finish') to log the request once it's done
   res.on('finish', () => {

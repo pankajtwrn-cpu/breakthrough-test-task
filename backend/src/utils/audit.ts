@@ -10,7 +10,7 @@ export const createAuditLog = async (
   action: ActionType,
   entityType: EntityType,
   entityId: string,
-  details: any = {}
+  details: Record<string, unknown> = {}
 ) => {
   if (!req.user || !req.tenantDb) return;
 

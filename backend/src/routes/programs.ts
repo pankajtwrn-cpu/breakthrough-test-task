@@ -14,7 +14,7 @@ router.get('/', async (req: AuthRequest, res: Response) => {
   try {
     const list = await req.tenantDb!.query.programs.findMany({
       where: eq(programs.creatorId, req.user!.tenantId),
-      orderBy: (programs: any, { desc }: any) => [desc(programs.createdAt)],
+      orderBy: (programs, { desc }) => [desc(programs.createdAt)],
     });
     res.json(list);
   } catch (error) {

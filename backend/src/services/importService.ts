@@ -5,6 +5,27 @@ import { eq, and } from 'drizzle-orm';
 import { AuthRequest } from '../middleware/auth.js';
 import { createAuditLog } from '../utils/audit.js';
 
+interface CSVRecord {
+  title?: string;
+  duration?: string;
+  position?: string;
+  instructor_name?: string;
+  tags?: string;
+  media_url?: string;
+}
+
+interface ImportError {
+  row: number;
+  error: string;
+}
+
+interface ImportResult {
+  total: number;
+  imported: number;
+  errors: ImportError[];
+  [key: string]: unknown;
+}
+
 export const importSessions = async (
   req: AuthRequest,
   programId: string,
@@ -30,7 +51,7 @@ export const importSessions = async (
   if (!program) throw new Error('Program not found');
 
   // 3. Parse CSV
-  let records: any[];
+  let records: CSVRecord[];
   try {
     records = parse(csvData, {
       columns: true,
@@ -41,9 +62,8 @@ export const importSessions = async (
     throw new Error('Invalid CSV format');
   }
 
-  const results: any[] = [];
   const validRecords: any[] = [];
-  const errors: any[] = [];
+  const errors: ImportError[] = [];
 
   // 4. Validate rows
   records.forEach((record, index) => {
@@ -80,7 +100,7 @@ export const importSessions = async (
   let importedCount = 0;
   if (validRecords.length > 0) {
     try {
-      await req.tenantDb!.transaction(async (tx: any) => {
+      await req.tenantDb!.transaction(async (tx) => {
         for (const record of validRecords) {
           // Additional row-level idempotency just in case
           const existing = await tx.query.sessions.findFirst({
@@ -92,13 +112,14 @@ export const importSessions = async (
           }
         }
       });
-    } catch (err: any) {
-      console.error('Import transaction failed:', err);
+    } catch (err) {
+      const error = err as Error;
+      console.error('Import transaction failed:', error);
       throw new Error('Import failed during database insertion');
     }
   }
 
-  const result = {
+  const result: ImportResult = {
     total: records.length,
     imported: importedCount,
     errors,
