@@ -2,6 +2,8 @@
 
 Wellspring is a premium, multi-tenant content management platform for wellness creators. It features strict tenant isolation at the data layer, idempotent bulk imports, and a sleek glassmorphic administrative interface.
 
+Loom Video Url :- https://www.loom.com/share/0b8ea6a7a85d4df38fb33d9e022f2a64
+
 ## Tech Stack
 - **Frontend**: Next.js (App Router), Tailwind CSS
 - **Backend**: Express, Drizzle ORM, Node-Postgres
@@ -20,16 +22,13 @@ Wellspring is a premium, multi-tenant content management platform for wellness c
 Copy the example environment file and update your database credentials.
 ```bash
 cp .env.example .env
-# Also copy to backend
 cp .env.example backend/.env
 ```
 
 ### 3. Installation
 ```bash
-# Install backend dependencies
 cd backend && npm install
 
-# Install frontend dependencies
 cd ../frontend && npm install
 ```
 
@@ -37,8 +36,8 @@ cd ../frontend && npm install
 Run these commands in the `backend` directory to set up the schema and the RLS policies.
 ```bash
 cd backend
-npm run db:migrate   # Applies RLS migrations and schema
-npm run db:seed      # Seeds 2 creators, 6 programs, 60 sessions
+npm run db:migrate   
+npm run db:seed    
 ```
 
 ### 5. Running the Application
