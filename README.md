@@ -18,21 +18,27 @@ Loom Video Url :- https://www.loom.com/share/0b8ea6a7a85d4df38fb33d9e022f2a64
 - Node.js v18+ 
 - PostgreSQL (Local or Docker)
 
-### 2. Environment Setup
-Copy the example environment file and update your database credentials.
+### 2. Start Database (Optional)
+If you don't have PostgreSQL installed locally, you can start it using Docker:
+```bash
+docker compose up -d
+```
+
+### 3. Environment Setup
+Copy the example environment file and update your database credentials if necessary.
 ```bash
 cp .env.example .env
 cp .env.example backend/.env
 ```
 
-### 3. Installation
+### 4. Installation
 ```bash
 cd backend && npm install
 
 cd ../frontend && npm install
 ```
 
-### 4. Database Initialization (Migrations & Seeding)
+### 5. Database Initialization (Migrations & Seeding)
 Run these commands in the `backend` directory to set up the schema and the RLS policies.
 ```bash
 cd backend
@@ -40,7 +46,7 @@ npm run db:migrate
 npm run db:seed    
 ```
 
-### 5. Running the Application
+### 6. Running the Application
 Open two terminals:
 
 **Terminal 1 (Backend)**:
